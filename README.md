@@ -1,6 +1,10 @@
 # PlacaCheck
 
-App Flutter (Android/iOS) para consulta de veículos por placa. O usuário digita uma placa (padrão antigo ou Mercosul) e recebe dados do veículo — marca, modelo, ano, cor, chassi, motor, município/UF e situação legal — via [API Placas](https://wdapi2.com.br) da WD Desenvolvimento.
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](./LICENSE)
+
+App Flutter (Android/iOS) para consulta de veículos por placa. O usuário digita uma placa (padrão antigo ou Mercosul) e recebe dados do veículo — marca, modelo, ano, cor, chassi, motor, município/UF e situação legal — via [API da Consultar Placa](https://consultarplaca.com.br).
+
+> Uso pessoal deste app: os [termos de uso](https://www.consultarplaca.com.br/termos-de-uso/) da Consultar Placa proíbem redistribuir, divulgar ou revender os dados retornados pela API. Este repositório contém apenas o código-fonte do cliente — nenhum dado real de consulta é versionado.
 
 ## Funcionalidades
 
@@ -39,7 +43,7 @@ Placas de teste: `AAA1A11` (regular) e `BBB2B22` (com restrição + roubo).
 
 ### Modo real (consulta a API de verdade)
 
-1. Crie uma conta na [API Placas](https://wdapi2.com.br) e obtenha seu e-mail + API key.
+1. Crie uma conta na [Consultar Placa](https://consultarplaca.com.br) e obtenha seu e-mail + API key.
 2. Copie `env.json.example` para `env.json` e preencha com suas credenciais:
    ```bash
    cp env.json.example env.json
@@ -61,3 +65,7 @@ flutter test      # suíte de testes
 ## Aviso de segurança
 
 Credenciais embarcadas em apps mobile são extraíveis do binário. Este projeto é de uso pessoal; para produção, recomenda-se intermediar as chamadas à API com um backend-proxy em vez de expor a API key no cliente.
+
+## Licença
+
+Distribuído sob a licença [Apache 2.0](./LICENSE).

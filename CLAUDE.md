@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Sobre o projeto
 
-PlacaCheck é um app Flutter (Android/iOS) para **consulta de veículos por placa** usando a **API Placas** da WD Desenvolvimento (`https://wdapi2.com.br`). O usuário digita uma placa e recebe dados do veículo (marca, modelo, ano, cor, chassi, motor, município/UF e situação legal).
+PlacaCheck é um app Flutter (Android/iOS) para **consulta de veículos por placa** usando a **API da Consultar Placa** (`https://api.consultarplaca.com.br`). O usuário digita uma placa e recebe dados do veículo (marca, modelo, ano, cor, chassi, motor, município/UF e situação legal).
+
+⚠️ Os termos de uso da Consultar Placa (`consultarplaca.com.br/termos-de-uso`, cláusulas 7.6/10.3) **proíbem redistribuir, divulgar ou revender os dados retornados pela API a terceiros**. Nunca comite no repositório respostas reais da API (JSONs de exemplo, prints com dados de veículo/dono) nem construa funcionalidade que deixe outros usuários consultarem placas através das suas credenciais.
 
 Comunicação e comentários no código são em **português**.
 
@@ -24,7 +26,7 @@ Arquitetura limpa em camadas com dependência apontando sempre para abstrações
 
 Fluxo: `VehicleScreen` → `VehicleController` (estado) → `VehicleRepository` (interface) → `MockVehicleRepository` **ou** `HttpVehicleRepository` → `VehicleModel`.
 
-- **`lib/models/vehicle_model.dart`** — `VehicleModel` imutável + `fromJson`. O parsing é **deliberadamente defensivo**: a API Placas mistura chaves MAIÚSCULAS (`MARCA`, `MODELO`) com minúsculas (`ano`, `cor`) e guarda alguns campos num objeto aninhado `extra` (ano de fabricação, motor). O helper interno `pick()` tenta múltiplas chaves possíveis e cai num fallback em vez de quebrar. Se for ajustar campos, mantenha essa tolerância. O getter `isRegular` interpreta o texto livre de `situacao` para decidir regular vs. restrição.
+- **`lib/models/vehicle_model.dart`** — `VehicleModel` imutável + `fromJson`. O parsing é **deliberadamente defensivo**: a API mistura chaves MAIÚSCULAS (`MARCA`, `MODELO`) com minúsculas (`ano`, `cor`) e guarda alguns campos num objeto aninhado `extra` (ano de fabricação, motor). O helper interno `pick()` tenta múltiplas chaves possíveis e cai num fallback em vez de quebrar. Se for ajustar campos, mantenha essa tolerância. O getter `isRegular` interpreta o texto livre de `situacao` para decidir regular vs. restrição.
 
 - **`lib/repositories/vehicle_repository.dart`** — Contém a interface, as duas implementações e a `VehicleException` (erros de domínio com mensagem pronta para a UI). `MockVehicleRepository` simula latência com `Future.delayed` e só retorna dados para a placa de teste `ABC1D23` (qualquer outra placa válida simula "não encontrado", permitindo testar o fluxo de erro sem custo). `HttpVehicleRepository` chama `GET /consulta/{PLACA}/{TOKEN}`, trata status HTTP (401/402/404/429) **e** erros internos sinalizados dentro de um JSON 200.
 
